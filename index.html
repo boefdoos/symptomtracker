@@ -3,11 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ademhaling & Symptoom Management Tool</title>
-    <!-- Modern Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Adem tracker</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -17,13 +13,10 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #00b894 0%, #00cec9 50%, #81ecec 100%);
             min-height: 100vh;
             color: #2d3436;
-            font-weight: 400;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
         .container {
@@ -1112,9 +1105,9 @@
         <div class="header">
             <h1>
                 <i class="fas fa-wind header-icon"></i>
-                Ademhaling & Symptoom Management Tool
+                BreathEase
             </h1>
-            <p>Wetenschappelijk onderbouwde technieken voor gapen, zuchten en hyperventilatie</p>
+            <p>Wetenschappelijk onderbouwde technieken tegen gapen, zuchten en hyperventilatie</p>
         </div>
 
         <div class="nav-tabs">
@@ -1861,122 +1854,36 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-app-compat.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-auth-compat.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-firestore-compat.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-database-compat.min.js"></script>
     <!-- Chart.js for visualizations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.min.js"></script>
 
     <script>
-        // Firebase Configuration - VERVANG MET JE EIGEN GEGEVENS!
-        // 
-        // Stappen om Firebase in te stellen:
-        // 1. Ga naar https://console.firebase.google.com
-        // 2. Maak een nieuw project aan
-        // 3. Activeer Authentication (Email/Password + Google)
-        // 4. Maak Firestore database aan (start in test mode)
-        // 5. Ga naar Firestore > Rules en vervang de rules met:
-        //
-        //    rules_version = '2';
-        //    service cloud.firestore {
-        //      match /databases/{database}/documents {
-        //        match /users/{userId} {
-        //          allow read, write: if request.auth != null && request.auth.uid == userId;
-        //        }
-        //      }
-        //    }
-        //
-        // 6. Kopieer je config van Project Settings > General > Web apps
-        // 7. Vervang onderstaande config met jouw gegevens
-        //
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyDeXJhqa__4msZCeJueFwCtxcBRQflSmHE",
-  authDomain: "symptom-tracker-496e5.firebaseapp.com",
-  projectId: "symptom-tracker-496e5",
-  storageBucket: "symptom-tracker-496e5.firebasestorage.app",
-  messagingSenderId: "936513159085",
-  appId: "1:936513159085:web:5a6944c3f98ad9a3c56b24",
-  measurementId: "G-VWQV989J7G"
-};
-};
-        };
+    const firebaseConfig = {
+      apiKey: "AIzaSyDeXJhqa__4msZCeJueFwCtxcBRQflSmHE",
+      authDomain: "symptom-tracker-496e5.firebaseapp.com",
+      projectId: "symptom-tracker-496e5",
+      storageBucket: "symptom-tracker-496e5.firebasestorage.app",
+      messagingSenderId: "936513159085",
+      appId: "1:936513159085:web:5a6944c3f98ad9a3c56b24",
+      measurementId: "G-VWQV989J7G"
+    };
 
-        // Initialize Firebase with better error handling
-        let app, auth, db, realtimeDb;
+        // Initialize Firebase (Demo mode - replace with actual config)
+        let app, auth, db;
         let currentUser = null;
         let isDemo = false; // Set to false when using real Firebase
-        let firebaseInitialized = false;
-        let useRealtimeDatabase = false; // Set to true to use Realtime Database instead of Firestore
 
-        // Check if we should use real Firebase
-        function shouldUseRealFirebase() {
-            // Return true if you have real Firebase config
-            return firebaseConfig.apiKey !== "demo-api-key" && 
-                   firebaseConfig.projectId !== "breathease-demo";
-        }
-
-        // Initialize Firebase with proper error handling
-        function initializeFirebase() {
-            if (shouldUseRealFirebase()) {
-                try {
-                    app = firebase.initializeApp(firebaseConfig);
-                    auth = firebase.auth();
-                    
-                    if (useRealtimeDatabase) {
-                        // Initialize Realtime Database
-                        realtimeDb = firebase.database();
-                        console.log('✅ Firebase Realtime Database initialized');
-                    } else {
-                        // Initialize Firestore (default)
-                        db = firebase.firestore();
-                        
-                    // Test Firestore connection and permissions
-                    db.enableNetwork().then(async () => {
-                        console.log('✅ Firestore network enabled');
-                        
-                        // Test basic permissions when user is authenticated
-                        if (currentUser) {
-                            try {
-                                const testRef = db.collection('users').doc(currentUser.uid);
-                                await testRef.get();
-                                console.log('✅ Firestore permissions OK');
-                                isDemo = false;
-                                firebaseInitialized = true;
-                            } catch (permError) {
-                                console.warn('⚠️ Firestore permission test failed:', permError);
-                                if (permError.code === 'permission-denied') {
-                                    showNotification('🔐 Firestore permissions verkeerd ingesteld', 'error');
-                                }
-                                isDemo = false; // Still use Firebase but with fallback
-                                firebaseInitialized = true;
-                            }
-                        } else {
-                            isDemo = false;
-                            firebaseInitialized = true;
-                        }
-                    }).catch((error) => {
-                        console.warn('⚠️ Firestore connection failed, switching to demo mode:', error);
-                        isDemo = true;
-                        firebaseInitialized = false;
-                    });
-                    }
-                    
-                    isDemo = false;
-                    firebaseInitialized = true;
-                    
-                } catch (error) {
-                    console.warn('⚠️ Firebase initialization failed, running in demo mode:', error);
-                    isDemo = true;
-                    firebaseInitialized = false;
-                }
-            } else {
-                console.log('🔧 Running in demo mode - no real Firebase config detected');
+        if (!isDemo) {
+            try {
+                app = firebase.initializeApp(firebaseConfig);
+                auth = firebase.auth();
+                db = firebase.firestore();
+            } catch (error) {
+                console.warn('Firebase not available, running in demo mode');
                 isDemo = true;
-                firebaseInitialized = false;
             }
         }
-
-        // Initialize Firebase
-        initializeFirebase();
 
         // Global variables for timers and data
         let currentTimer = null;
@@ -1987,11 +1894,9 @@ const firebaseConfig = {
 
         // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
-            if (isDemo || !firebaseInitialized) {
+            if (isDemo) {
                 // Demo mode - skip auth
-                setTimeout(() => {
-                    initializeDemoUser();
-                }, 500);
+                initializeDemoUser();
             } else {
                 // Real Firebase mode
                 auth.onAuthStateChanged(handleAuthStateChange);
@@ -2005,7 +1910,7 @@ const firebaseConfig = {
                 displayName: 'Demo Gebruiker' 
             };
             showMainApp();
-            showNotification('Demo modus - data wordt lokaal opgeslagen', 'info');
+            showNotification('Demo modus actief - data wordt lokaal opgeslagen', 'info');
         }
 
         function handleAuthStateChange(user) {
@@ -2093,9 +1998,8 @@ const firebaseConfig = {
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
             
-            if (isDemo || !firebaseInitialized) {
+            if (isDemo) {
                 // Demo login
-                showAuthSuccess('Demo login succesvol...');
                 setTimeout(() => {
                     initializeDemoUser();
                 }, 1000);
@@ -2105,27 +2009,7 @@ const firebaseConfig = {
             try {
                 await auth.signInWithEmailAndPassword(email, password);
             } catch (error) {
-                console.error('Login error:', error);
-                let errorMessage = 'Inloggen mislukt';
-                
-                switch (error.code) {
-                    case 'auth/user-not-found':
-                        errorMessage = 'Gebruiker niet gevonden';
-                        break;
-                    case 'auth/wrong-password':
-                        errorMessage = 'Onjuist wachtwoord';
-                        break;
-                    case 'auth/invalid-email':
-                        errorMessage = 'Ongeldig e-mailadres';
-                        break;
-                    case 'auth/network-request-failed':
-                        errorMessage = 'Geen internetverbinding';
-                        break;
-                    default:
-                        errorMessage = 'Inloggen mislukt: ' + error.message;
-                }
-                
-                showAuthError(errorMessage);
+                showAuthError('Inloggen mislukt: ' + error.message);
             }
         });
 
@@ -2149,9 +2033,9 @@ const firebaseConfig = {
                 return;
             }
             
-            if (isDemo || !firebaseInitialized) {
+            if (isDemo) {
                 // Demo registration
-                showAuthSuccess('Demo account aangemaakt! Je wordt ingelogd...');
+                showAuthSuccess('Account aangemaakt! Je wordt ingelogd...');
                 setTimeout(() => {
                     initializeDemoUser();
                 }, 1500);
@@ -2166,32 +2050,12 @@ const firebaseConfig = {
                 await initializeUserData(userCredential.user.uid);
                 
             } catch (error) {
-                console.error('Registration error:', error);
-                let errorMessage = 'Registratie mislukt';
-                
-                switch (error.code) {
-                    case 'auth/email-already-in-use':
-                        errorMessage = 'E-mailadres is al in gebruik';
-                        break;
-                    case 'auth/invalid-email':
-                        errorMessage = 'Ongeldig e-mailadres';
-                        break;
-                    case 'auth/weak-password':
-                        errorMessage = 'Wachtwoord is te zwak';
-                        break;
-                    case 'auth/network-request-failed':
-                        errorMessage = 'Geen internetverbinding';
-                        break;
-                    default:
-                        errorMessage = 'Registratie mislukt: ' + error.message;
-                }
-                
-                showAuthError(errorMessage);
+                showAuthError('Registratie mislukt: ' + error.message);
             }
         });
 
         async function signInWithGoogle() {
-            if (isDemo || !firebaseInitialized) {
+            if (isDemo) {
                 initializeDemoUser();
                 return;
             }
@@ -2205,79 +2069,45 @@ const firebaseConfig = {
                     await initializeUserData(result.user.uid);
                 }
             } catch (error) {
-                console.error('Google sign-in error:', error);
-                let errorMessage = 'Google inloggen mislukt';
-                
-                if (error.code === 'auth/popup-closed-by-user') {
-                    errorMessage = 'Inloggen geannuleerd';
-                } else if (error.code === 'auth/network-request-failed') {
-                    errorMessage = 'Geen internetverbinding';
-                } else {
-                    errorMessage = 'Google inloggen mislukt: ' + error.message;
-                }
-                
-                showAuthError(errorMessage);
+                showAuthError('Google inloggen mislukt: ' + error.message);
             }
         }
 
         async function signOut() {
-            if (isDemo || !firebaseInitialized) {
-                if (confirm('Weet je zeker dat je wilt uitloggen? Demo data gaat verloren.')) {
-                    location.reload();
-                }
+            if (isDemo) {
+                location.reload();
                 return;
             }
             
             try {
                 await auth.signOut();
             } catch (error) {
-                console.error('Sign out error:', error);
                 showNotification('Uitloggen mislukt: ' + error.message, 'error');
             }
         }
 
         async function initializeUserData(uid) {
-            if (isDemo || !firebaseInitialized) return;
+            if (isDemo) return;
             
-            try {
-                const userData = {
-                    profile: {
-                        email: currentUser.email,
-                        displayName: currentUser.displayName,
-                        settings: {
-                            notifications: true,
-                            theme: 'light'
-                        }
-                    },
-                    checklist: {},
-                    symptoms: useRealtimeDatabase ? {} : [],
-                    exercises: useRealtimeDatabase ? {} : [],
-                    streakDates: useRealtimeDatabase ? {} : []
-                };
-                
-                if (useRealtimeDatabase) {
-                    // Realtime Database
-                    userData.profile.createdAt = firebase.database.ServerValue.TIMESTAMP;
-                    await realtimeDb.ref(`users/${uid}`).set(userData);
-                    console.log('✅ Realtime Database user data initialized successfully');
-                } else {
-                    // Firestore
-                    userData.profile.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-                    await db.collection('users').doc(uid).set(userData);
-                    console.log('✅ Firestore user data initialized successfully');
-                }
-                
-            } catch (error) {
-                console.error('❌ Failed to initialize user data:', error);
-                showNotification('Gebruiker aangemaakt, maar data initialisatie mislukt', 'warning');
-            }
+            const userData = {
+                profile: {
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    settings: {
+                        notifications: true,
+                        theme: 'light'
+                    }
+                },
+                checklist: {},
+                symptoms: [],
+                exercises: []
+            };
+            
+            await db.collection('users').doc(uid).set(userData);
         }
 
-        // Data synchronization functions with improved error handling
+        // Data synchronization functions
         function showSyncIndicator(status, message) {
             const indicator = document.getElementById('syncIndicator');
-            if (!indicator) return;
-            
             indicator.style.display = 'flex';
             indicator.className = `sync-indicator ${status}`;
             indicator.querySelector('span').textContent = message;
@@ -2291,207 +2121,39 @@ const firebaseConfig = {
         }
 
         async function syncData(collection, data, operation = 'update') {
-            // Always save locally first
-            saveDataLocally(collection, data, operation);
-            
-            if (isDemo || !firebaseInitialized || !currentUser) {
-                // Simulate sync delay for demo
-                showSyncIndicator('syncing', 'Lokaal opslaan...');
+            if (isDemo) {
+                // Simulate sync delay
+                showSyncIndicator('syncing', 'Synchroniseren...');
                 setTimeout(() => {
-                    showSyncIndicator('synced', 'Lokaal opgeslagen');
-                }, 800);
-                return Promise.resolve();
+                    showSyncIndicator('synced', 'Gegevens gesynchroniseerd');
+                }, 1000);
+                return;
             }
+            
+            if (!currentUser) return;
             
             try {
                 showSyncIndicator('syncing', 'Synchroniseren...');
                 
-                // Validate data before sending
-                if (!validateSyncData(collection, data)) {
-                    throw new Error('Invalid data structure');
+                const userRef = db.collection('users').doc(currentUser.uid);
+                
+                if (operation === 'update') {
+                    await userRef.update({
+                        [`${collection}`]: data,
+                        lastSync: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                } else if (operation === 'add') {
+                    await userRef.update({
+                        [`${collection}`]: firebase.firestore.FieldValue.arrayUnion(data),
+                        lastSync: firebase.firestore.FieldValue.serverTimestamp()
+                    });
                 }
                 
-                if (useRealtimeDatabase) {
-                    // Realtime Database sync
-                    await syncToRealtimeDatabase(collection, data, operation);
-                } else {
-                    // Firestore sync (default)
-                    await syncToFirestore(collection, data, operation);
-                }
-                
-                showSyncIndicator('synced', 'Gesynchroniseerd');
+                showSyncIndicator('synced', 'Gegevens gesynchroniseerd');
                 
             } catch (error) {
                 console.error('Sync error:', error);
-                showSyncIndicator('error', 'Sync mislukt - lokaal opgeslagen');
-                
-                // Handle specific error types
-                const errorMessage = error.message || error.code || error;
-                
-                if (errorMessage.includes('PERMISSION_DENIED') || errorMessage.includes('permission-denied')) {
-                    showNotification('🔐 Toegang geweigerd - controleer Firestore security rules', 'error');
-                    console.error(`
-❌ FIRESTORE PERMISSION ERROR ❌
-                    
-Je Firestore security rules zijn niet correct ingesteld.
-Ga naar Firebase Console > Firestore > Rules en gebruik:
-
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /users/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
-    }
-  }
-}
-                    `);
-                } else if (errorMessage.includes('UNAUTHENTICATED') || errorMessage.includes('unauthenticated')) {
-                    showNotification('🔑 Niet ingelogd - probeer opnieuw in te loggen', 'error');
-                } else if (errorMessage.includes('UNAVAILABLE') || errorMessage.includes('unavailable') || errorMessage.includes('NETWORK_ERROR')) {
-                    showNotification('📡 Geen internetverbinding - data lokaal opgeslagen', 'info');
-                } else {
-                    showNotification('⚠️ Sync probleem - data lokaal opgeslagen', 'error');
-                }
-            }
-        }
-
-        // Firestore sync function with improved error handling
-        async function syncToFirestore(collection, data, operation) {
-            try {
-                const userRef = db.collection('users').doc(currentUser.uid);
-                
-                // First, try a simple read test to check permissions
-                try {
-                    await userRef.get();
-                } catch (permissionError) {
-                    if (permissionError.code === 'permission-denied') {
-                        console.warn('❌ Firestore permission denied. Please check your security rules.');
-                        throw new Error('PERMISSION_DENIED: Check Firestore security rules');
-                    }
-                    throw permissionError;
-                }
-                
-                // Check if document exists
-                const docSnapshot = await userRef.get();
-                if (!docSnapshot.exists) {
-                    // Initialize user document with minimal data first
-                    const initialData = {
-                        profile: {
-                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                            email: currentUser.email || 'unknown@email.com',
-                            displayName: currentUser.displayName || 'Unknown User'
-                        }
-                    };
-                    
-                    // Initialize each collection as empty
-                    initialData[collection] = (operation === 'add') ? [data] : data;
-                    initialData.lastSync = firebase.firestore.FieldValue.serverTimestamp();
-                    
-                    await userRef.set(initialData, { merge: true });
-                    console.log('✅ User document created and data added');
-                    return;
-                }
-                
-                // Document exists, update it
-                const updateData = {
-                    lastSync: firebase.firestore.FieldValue.serverTimestamp()
-                };
-                
-                if (operation === 'update') {
-                    updateData[collection] = data;
-                } else if (operation === 'add') {
-                    // For add operations, we'll use arrayUnion
-                    updateData[collection] = firebase.firestore.FieldValue.arrayUnion(data);
-                }
-                
-                await userRef.update(updateData);
-                console.log(`✅ Firestore ${operation} successful for ${collection}`);
-                
-            } catch (error) {
-                console.error('❌ Firestore sync failed:', error);
-                
-                // Provide more specific error information
-                if (error.code === 'permission-denied') {
-                    throw new Error('FIRESTORE_PERMISSION_DENIED');
-                } else if (error.code === 'unavailable') {
-                    throw new Error('FIRESTORE_UNAVAILABLE');
-                } else if (error.code === 'unauthenticated') {
-                    throw new Error('FIRESTORE_UNAUTHENTICATED');
-                } else {
-                    throw error;
-                }
-            }
-        }
-
-        // Realtime Database sync function
-        async function syncToRealtimeDatabase(collection, data, operation) {
-            const userRef = realtimeDb.ref(`users/${currentUser.uid}`);
-            
-            // Check if user exists
-            const userSnapshot = await userRef.once('value');
-            if (!userSnapshot.exists()) {
-                // Initialize user data
-                await userRef.set({
-                    profile: {
-                        createdAt: firebase.database.ServerValue.TIMESTAMP,
-                        email: currentUser.email,
-                        displayName: currentUser.displayName
-                    },
-                    symptoms: {},
-                    checklist: {},
-                    exercises: {},
-                    streakDates: {}
-                });
-            }
-            
-            if (operation === 'update') {
-                await userRef.child(collection).set(data);
-                await userRef.child('lastSync').set(firebase.database.ServerValue.TIMESTAMP);
-            } else if (operation === 'add') {
-                // For arrays in Realtime Database, we use push() or set with unique keys
-                const collectionRef = userRef.child(collection);
-                if (data.id) {
-                    await collectionRef.child(data.id).set(data);
-                } else {
-                    await collectionRef.push(data);
-                }
-                await userRef.child('lastSync').set(firebase.database.ServerValue.TIMESTAMP);
-            }
-        }
-
-        // Validate data before syncing
-        function validateSyncData(collection, data) {
-            if (!data || typeof data !== 'object') {
-                return false;
-            }
-            
-            switch (collection) {
-                case 'symptoms':
-                    return data.hasOwnProperty('mainSymptom') && 
-                           data.hasOwnProperty('intensity') && 
-                           data.hasOwnProperty('timestamp');
-                case 'checklist':
-                    return typeof data === 'object';
-                case 'exercises':
-                    return data.hasOwnProperty('type') && 
-                           data.hasOwnProperty('duration');
-                default:
-                    return true;
-            }
-        }
-
-        // Save data locally as backup
-        function saveDataLocally(collection, data, operation = 'update') {
-            try {
-                if (operation === 'add') {
-                    const existing = JSON.parse(localStorage.getItem(collection) || '[]');
-                    existing.push(data);
-                    localStorage.setItem(collection, JSON.stringify(existing));
-                } else {
-                    localStorage.setItem(collection, JSON.stringify(data));
-                }
-            } catch (error) {
-                console.error('Local storage error:', error);
+                showSyncIndicator('error', 'Synchronisatie mislukt');
             }
         }
 
@@ -2592,7 +2254,7 @@ service cloud.firestore {
             submitBtn.classList.add('loading');
             
             try {
-                // Collect and validate form data
+                // Collect form data
                 const symptomData = {
                     id: Date.now().toString(),
                     dateTime: document.getElementById('symptomDateTime').value,
@@ -2600,38 +2262,25 @@ service cloud.firestore {
                     intensity: parseInt(document.getElementById('intensitySlider').value),
                     duration: parseInt(document.getElementById('duration').value) || 0,
                     triggers: Array.from(document.querySelectorAll('#tracker input[type="checkbox"]:checked')).map(cb => cb.value),
-                    techniques: Array.from(document.querySelectorAll('#tracker input[type="checkbox"][value]')).filter(cb => cb.checked).map(cb => cb.value),
                     effectiveness: parseInt(document.getElementById('effectivenessSlider').value),
                     notes: document.getElementById('notes').value,
                     timestamp: new Date().toISOString(),
                     userId: currentUser?.uid || 'demo-user'
                 };
                 
-                // Validate required fields
-                const validation = validateSymptomData(symptomData);
-                if (validation.length > 0) {
-                    throw new Error(validation.join(', '));
-                }
-                
-                // Save locally first
+                // Save locally
                 let savedSymptoms = JSON.parse(localStorage.getItem('symptoms') || '[]');
                 savedSymptoms.push(symptomData);
                 localStorage.setItem('symptoms', JSON.stringify(savedSymptoms));
                 
-                // Sync to cloud (with improved error handling)
-                try {
-                    await syncData('symptoms', symptomData, 'add');
-                    showNotification('Symptomen succesvol opgeslagen!', 'success');
-                } catch (syncError) {
-                    console.warn('Sync failed but data saved locally:', syncError);
-                    showNotification('Symptomen lokaal opgeslagen (sync later)', 'info');
-                }
+                // Sync to cloud
+                await syncData('symptoms', symptomData, 'add');
+                
+                showNotification('Symptomen succesvol opgeslagen!', 'success');
                 
                 // Reset form
                 e.target.reset();
-                const now = new Date();
-                now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-                document.getElementById('symptomDateTime').value = now.toISOString().slice(0, 16);
+                document.getElementById('symptomDateTime').value = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16);
                 document.getElementById('intensityValue').textContent = '5';
                 
                 // Update dashboard
@@ -2639,7 +2288,7 @@ service cloud.firestore {
                 
             } catch (error) {
                 console.error('Error saving symptom:', error);
-                showNotification('Fout bij opslaan: ' + error.message, 'error');
+                showNotification('Fout bij opslaan van symptomen', 'error');
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.classList.remove('loading');
@@ -3175,15 +2824,8 @@ Deze email is gegenereerd door de BreathEase app.
             });
         });
 
-        // Load draft on form focus (optimized)
-        let draftLoaded = false;
-        document.getElementById('symptomForm').addEventListener('focusin', function() {
-            if (!draftLoaded) {
-                draftLoaded = true;
-                // Use setTimeout to prevent blocking
-                setTimeout(loadDraft, 0);
-            }
-        }, { once: true });
+        // Load draft on form focus
+        document.getElementById('symptomForm').addEventListener('focusin', loadDraft, { once: true });
 
         // Clear draft on successful submit
         document.getElementById('symptomForm').addEventListener('submit', function() {
@@ -3205,77 +2847,7 @@ Deze email is gegenereerd door de BreathEase app.
             });
         }
 
-        // Test function for Firestore setup (call in console: testFirestore())
-        window.testFirestore = async function() {
-            if (isDemo) {
-                console.log('🔧 App is running in demo mode');
-                console.log('To use Firestore, update the firebaseConfig with your real project settings');
-                return;
-            }
-            
-            if (!currentUser) {
-                console.log('❌ No user logged in. Please log in first.');
-                return;
-            }
-            
-            try {
-                console.log('🧪 Testing Firestore connection...');
-                
-                // Test 1: Basic connection
-                await db.enableNetwork();
-                console.log('✅ Test 1 passed: Firestore network connection OK');
-                
-                // Test 2: Read permission
-                const userRef = db.collection('users').doc(currentUser.uid);
-                await userRef.get();
-                console.log('✅ Test 2 passed: Read permission OK');
-                
-                // Test 3: Write permission
-                await userRef.set({
-                    test: true,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                }, { merge: true });
-                console.log('✅ Test 3 passed: Write permission OK');
-                
-                // Test 4: Delete test data
-                await userRef.update({
-                    test: firebase.firestore.FieldValue.delete()
-                });
-                console.log('✅ Test 4 passed: Delete permission OK');
-                
-                console.log('🎉 All Firestore tests passed! Your setup is correct.');
-                showNotification('Firestore test succesvol!', 'success');
-                
-            } catch (error) {
-                console.error('❌ Firestore test failed:', error);
-                
-                if (error.code === 'permission-denied') {
-                    console.error(`
-❌ PERMISSION DENIED ERROR ❌
-
-Your Firestore security rules are not set up correctly.
-Go to Firebase Console > Firestore > Rules and use:
-
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /users/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
-    }
-  }
-}
-
-Then click "Publish" to save the rules.
-                    `);
-                } else {
-                    console.error('Error details:', error);
-                }
-                
-                showNotification('Firestore test mislukt - check console', 'error');
-            }
-        };
-
-        console.log('💡 TIP: Run testFirestore() in console to test your Firestore setup');
+        console.log('BreathEase App initialized successfully');
 
         // Chart variables
         let symptomTrendChart = null;
@@ -3386,9 +2958,8 @@ Then click "Publish" to save the rules.
         }
 
         // Chart.js default configuration
-        Chart.defaults.font.family = 'Inter, -apple-system, BlinkMacSystemFont, sans-serif';
+        Chart.defaults.font.family = 'Segoe UI';
         Chart.defaults.font.size = 12;
-        Chart.defaults.font.weight = '400';
         Chart.defaults.color = '#2d3436';
 
         // Generate demo symptom data for charts
