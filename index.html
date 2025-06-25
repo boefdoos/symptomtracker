@@ -1887,19 +1887,21 @@
         // 6. Kopieer je config van Project Settings > General > Web apps
         // 7. Vervang onderstaande config met jouw gegevens
         //
-        const firebaseConfig = {
-            apiKey: "demo-api-key", // Vervang met: "AIzaSyB..."
-            authDomain: "breathease-demo.firebaseapp.com", // Vervang met: "jouw-project.firebaseapp.com"
-            projectId: "breathease-demo", // Vervang met: "jouw-project-id"
-            storageBucket: "breathease-demo.appspot.com", // Vervang met: "jouw-project.appspot.com"
-            messagingSenderId: "123456789", // Vervang met: "123456789"
-            appId: "demo-app-id" // Vervang met: "1:123456789:web:abcd1234"
+const firebaseConfig = {
+  apiKey: "AIzaSyDeXJhqa__4msZCeJueFwCtxcBRQflSmHE",
+  authDomain: "symptom-tracker-496e5.firebaseapp.com",
+  projectId: "symptom-tracker-496e5",
+  storageBucket: "symptom-tracker-496e5.firebasestorage.app",
+  messagingSenderId: "936513159085",
+  appId: "1:936513159085:web:5a6944c3f98ad9a3c56b24",
+  measurementId: "G-VWQV989J7G"
+};
         };
 
         // Initialize Firebase with better error handling
         let app, auth, db, realtimeDb;
         let currentUser = null;
-        let isDemo = true; // Set to false when using real Firebase
+        let isDemo = false; // Set to false when using real Firebase
         let firebaseInitialized = false;
         let useRealtimeDatabase = false; // Set to true to use Realtime Database instead of Firestore
 
