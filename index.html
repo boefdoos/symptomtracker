@@ -1129,10 +1129,24 @@
                 font-size: 1.6em;
             }
 
+            .nav-tabs {
+                padding: 12px 8px !important;
+                gap: 6px !important;
+            }
+
             .nav-tab {
-                min-width: 100px !important;
-                max-width: 120px !important;
-                padding: 8px 6px !important;
+                min-width: 90px !important;
+                max-width: 110px !important;
+                padding: 6px 4px !important;
+                font-size: 0.7em !important;
+                min-height: 45px !important;
+            }
+
+            .nav-tab i {
+                font-size: 1.1em !important;
+            }
+
+            .nav-tab span {
                 font-size: 0.8em !important;
             }
 
@@ -1168,6 +1182,57 @@
             /* Make activity heatmap smaller on very small screens */
             #activityHeatmap > div:first-child {
                 grid-template-columns: repeat(5, 1fr) !important;
+            }
+
+            /* Improve form layout on small screens */
+            .form-group {
+                margin-bottom: 15px;
+            }
+
+            .checkbox-group {
+                grid-template-columns: 1fr !important;
+            }
+
+            /* Better button layout */
+            .timer-controls {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .timer-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Landscape mobile adjustments */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .nav-tab {
+                min-width: 100px !important;
+                max-width: 120px !important;
+                padding: 6px 4px !important;
+                min-height: 40px !important;
+            }
+
+            .nav-tab i {
+                font-size: 1em !important;
+            }
+
+            .nav-tab span {
+                font-size: 0.75em !important;
+            }
+
+            .header {
+                margin-top: 10px;
+                margin-bottom: 15px;
+            }
+
+            .header h1 {
+                font-size: 1.5em;
+            }
+
+            .header p {
+                font-size: 0.9em;
             }
         }
 
@@ -1396,21 +1461,21 @@
                     <div class="checklist-item" onclick="toggleChecklist(this, 'morning_breathing')">
                         <div class="checklist-checkbox"><i class="fas fa-check"></i></div>
                         <div>
-                            <strong>Diafragmatische ademhaling</strong><br>
+                            <strong><i class="fas fa-lungs" style="margin-right: 8px; color: #00b894;"></i>Diafragmatische ademhaling</strong><br>
                             <small>10 minuten na het wakker worden</small>
                         </div>
                     </div>
                     <div class="checklist-item" onclick="toggleChecklist(this, 'morning_posture')">
                         <div class="checklist-checkbox"><i class="fas fa-check"></i></div>
                         <div>
-                            <strong>Postuur check</strong><br>
+                            <strong><i class="fas fa-male" style="margin-right: 8px; color: #74b9ff;"></i>Postuur check</strong><br>
                             <small>Schouders, rug en hoofdpositie controleren</small>
                         </div>
                     </div>
                     <div class="checklist-item" onclick="toggleChecklist(this, 'morning_co2')">
                         <div class="checklist-checkbox"><i class="fas fa-check"></i></div>
                         <div>
-                            <strong>CO2 tolerance test</strong><br>
+                            <strong><i class="fas fa-atom" style="margin-right: 8px; color: #a29bfe;"></i>CO2 tolerance test</strong><br>
                             <small>Control Pause meting (zie technieken tab)</small>
                         </div>
                     </div>
@@ -1426,14 +1491,14 @@
                     <div class="checklist-item" onclick="toggleChecklist(this, 'afternoon_box')">
                         <div class="checklist-checkbox"><i class="fas fa-check"></i></div>
                         <div>
-                            <strong>Box breathing sessie</strong><br>
+                            <strong><i class="fas fa-square" style="margin-right: 8px; color: #00cec9;"></i>Box breathing sessie</strong><br>
                             <small>5 minuten tijdens werkpauze</small>
                         </div>
                     </div>
                     <div class="checklist-item" onclick="toggleChecklist(this, 'afternoon_log')">
                         <div class="checklist-checkbox"><i class="fas fa-check"></i></div>
                         <div>
-                            <strong>Symptomen loggen</strong><br>
+                            <strong><i class="fas fa-edit" style="margin-right: 8px; color: #fdcb6e;"></i>Symptomen loggen</strong><br>
                             <small>Intensiteit en triggers noteren</small>
                         </div>
                     </div>
@@ -1449,21 +1514,21 @@
                     <div class="checklist-item" onclick="toggleChecklist(this, 'evening_vagus')">
                         <div class="checklist-checkbox"><i class="fas fa-check"></i></div>
                         <div>
-                            <strong>Vagus stimulatie</strong><br>
+                            <strong><i class="fas fa-wind" style="margin-right: 8px; color: #00b894;"></i>Vagus stimulatie</strong><br>
                             <small>Koude douche, zingen of nekmassage</small>
                         </div>
                     </div>
                     <div class="checklist-item" onclick="toggleChecklist(this, 'evening_mindfulness')">
                         <div class="checklist-checkbox"><i class="fas fa-check"></i></div>
                         <div>
-                            <strong>Mindfulness oefening</strong><br>
+                            <strong><i class="fas fa-om" style="margin-right: 8px; color: #e17055;"></i>Mindfulness oefening</strong><br>
                             <small>10-20 minuten body scan of ademmeditatie</small>
                         </div>
                     </div>
                     <div class="checklist-item" onclick="toggleChecklist(this, 'evening_review')">
                         <div class="checklist-checkbox"><i class="fas fa-check"></i></div>
                         <div>
-                            <strong>Dag evalueren</strong><br>
+                            <strong><i class="fas fa-clipboard-check" style="margin-right: 8px; color: #74b9ff;"></i>Dag evalueren</strong><br>
                             <small>Welke technieken werkten het beste?</small>
                         </div>
                     </div>
@@ -1544,7 +1609,7 @@
                             <label><input type="checkbox" value="box"> <i class="fas fa-square"></i> Box breathing</label>
                             <label><input type="checkbox" value="co2-training"> <i class="fas fa-atom"></i> CO2 training</label>
                             <label><input type="checkbox" value="vagus"> <i class="fas fa-wind"></i> Vagus stimulatie</label>
-                            <label><input type="checkbox" value="mindfulness"> <i class="fas fa-meditation"></i> Mindfulness</label>
+                            <label><input type="checkbox" value="mindfulness"> <i class="fas fa-om"></i> Mindfulness</label>
                             <label><input type="checkbox" value="posture"> <i class="fas fa-male"></i> Postuur</label>
                         </div>
                     </div>
@@ -1734,7 +1799,7 @@
                         <div><strong>Zingen/Neuriën:</strong> 5-10 minuten, activeert vagus via stembandtrillingen</div>
                     </div>
                     <div class="exercise-step">
-                        <div class="step-number"><i class="fas fa-hand-paper"></i></div>
+                        <div class="step-number"><i class="fas fa-hand-sparkles"></i></div>
                         <div><strong>Nekmassage:</strong> Zachte massage langs halsslagader, 2-3 minuten</div>
                     </div>
                     <div class="exercise-step">
@@ -1747,7 +1812,7 @@
             <div class="exercise-card">
                 <div class="exercise-header">
                     <div class="exercise-title">
-                        <div class="exercise-icon"><i class="fas fa-meditation"></i></div>
+                        <div class="exercise-icon"><i class="fas fa-om"></i></div>
                         Mindfulness Technieken
                     </div>
                     <div class="exercise-duration">
@@ -1758,19 +1823,19 @@
                 <h4>MBSR Protocollen:</h4>
                 <div class="exercise-steps">
                     <div class="exercise-step">
-                        <div class="step-number"><i class="fas fa-search"></i></div>
+                        <div class="step-number"><i class="fas fa-search-plus"></i></div>
                         <div><strong>Body Scan:</strong> Systematisch door hele lichaam, 15-20 minuten</div>
                     </div>
                     <div class="exercise-step">
-                        <div class="step-number"><i class="fas fa-wind"></i></div>
+                        <div class="step-number"><i class="fas fa-leaf"></i></div>
                         <div><strong>Mindful Ademhaling:</strong> Focus op natuurlijke ademhaling, 10 minuten</div>
                     </div>
                     <div class="exercise-step">
-                        <div class="step-number"><i class="fas fa-bullseye"></i></div>
+                        <div class="step-number"><i class="fas fa-eye"></i></div>
                         <div><strong>Symptoom Observatie:</strong> Bekijk gapen/zuchten zonder oordeel</div>
                     </div>
                     <div class="exercise-step">
-                        <div class="step-number"><i class="fas fa-sync-alt"></i></div>
+                        <div class="step-number"><i class="fas fa-redo-alt"></i></div>
                         <div><strong>Stress-Cyclus Doorbreken:</strong> Herken triggers → Pauzeer → Adem</div>
                     </div>
                 </div>
@@ -1794,15 +1859,15 @@
                         <div><strong>Control Pause:</strong> &lt;10s = slecht, 15-25s = gemiddeld, &gt;25s = goed</div>
                     </div>
                     <div class="exercise-step">
-                        <div class="step-number"><i class="fas fa-chart-bar"></i></div>
+                        <div class="step-number"><i class="fas fa-thermometer-half"></i></div>
                         <div><strong>Symptoom Intensiteit:</strong> 1-3 = mild, 4-6 = matig, 7-10 = ernstig</div>
                     </div>
                     <div class="exercise-step">
-                        <div class="step-number"><i class="fas fa-bullseye"></i></div>
+                        <div class="step-number"><i class="fas fa-star"></i></div>
                         <div><strong>Techniek Effectiviteit:</strong> Voor/na meting per sessie</div>
                     </div>
                     <div class="exercise-step">
-                        <div class="step-number"><i class="fas fa-clipboard-list"></i></div>
+                        <div class="step-number"><i class="fas fa-search"></i></div>
                         <div><strong>Trigger Patroon:</strong> Tijd, locatie, emotie, situatie loggen</div>
                     </div>
                 </div>
@@ -1822,7 +1887,7 @@
                 <h4>Bij Acute Symptomen:</h4>
                 <div class="exercise-steps">
                     <div class="exercise-step">
-                        <div class="step-number"><i class="fas fa-exclamation-triangle"></i></div>
+                        <div class="step-number"><i class="fas fa-hand-paper"></i></div>
                         <div><strong>Stap 1:</strong> Erken het symptoom zonder paniek</div>
                     </div>
                     <div class="exercise-step">
@@ -1830,7 +1895,7 @@
                         <div><strong>Stap 2:</strong> Direct box breathing starten (4-4-4-4)</div>
                     </div>
                     <div class="exercise-step">
-                        <div class="step-number"><i class="fas fa-user"></i></div>
+                        <div class="step-number"><i class="fas fa-male"></i></div>
                         <div><strong>Stap 3:</strong> Postuur controleren - recht zitten/staan</div>
                     </div>
                     <div class="exercise-step">
@@ -1877,7 +1942,7 @@
                     </h3>
                     <div style="margin: 15px 0;">
                         <div class="achievement-badge achievement-bronze">
-                            <i class="fas fa-medal"></i>
+                            <i class="fas fa-award"></i>
                             <div>
                                 <strong>Beginner</strong><br>
                                 <small>7 dagen achtereen geoefend</small>
@@ -1891,7 +1956,7 @@
                             </div>
                         </div>
                         <div class="achievement-badge achievement-locked">
-                            <i class="fas fa-lock"></i>
+                            <i class="fas fa-crown"></i>
                             <div>
                                 <strong>Expert</strong><br>
                                 <small>30 dagen achtereen</small>
@@ -1919,7 +1984,7 @@
                             <span style="font-weight: bold;">7.1/10</span>
                         </div>
                         <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <span><i class="fas fa-meditation" style="margin-right: 5px; color: #a29bfe;"></i>Mindfulness</span>
+                            <span><i class="fas fa-om" style="margin-right: 5px; color: #a29bfe;"></i>Mindfulness</span>
                             <span style="font-weight: bold;">6.9/10</span>
                         </div>
                     </div>
@@ -1932,15 +1997,15 @@
                     </h3>
                     <div style="margin: 15px 0;">
                         <div style="padding: 10px; background: #e8f5e8; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid #00b894;">
-                            <strong>💡 Patroon:</strong><br>
+                            <strong><i class="fas fa-lightbulb" style="margin-right: 6px;"></i>Patroon:</strong><br>
                             <small>34% minder symptomen met ochtend-oefeningen</small>
                         </div>
                         <div style="padding: 10px; background: #fff3cd; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid #fdcb6e;">
-                            <strong>⚠️ Aandacht:</strong><br>
+                            <strong><i class="fas fa-exclamation-triangle" style="margin-right: 6px;"></i>Aandacht:</strong><br>
                             <small>Stress blijft grootste trigger (67%)</small>
                         </div>
                         <div style="padding: 10px; background: #e1f5fe; border-radius: 8px; border-left: 4px solid #74b9ff;">
-                            <strong>🎯 Tip:</strong><br>
+                            <strong><i class="fas fa-target" style="margin-right: 6px;"></i>Tip:</strong><br>
                             <small>Mindfulness voor stress-symptomen</small>
                         </div>
                     </div>
@@ -2028,7 +2093,7 @@
             <!-- Export Section -->
             <div class="progress-chart">
                 <h3><i class="fas fa-download" style="margin-right: 10px; color: #a29bfe;"></i>Exporteer Gegevens</h3>
-                <p style="margin-bottom: 20px;">Download je voortgangsgegevens voor je zorgverlener of eigen analyse.</p>
+                <p style="margin-bottom: 20px;"><i class="fas fa-info-circle" style="margin-right: 6px; color: #74b9ff;"></i>Download je voortgangsgegevens voor je zorgverlener of eigen analyse.</p>
                 <div style="display: flex; gap: 15px; flex-wrap: wrap;">
                     <button class="submit-btn" onclick="exportData('csv')">
                         <i class="fas fa-file-csv"></i>
@@ -3319,6 +3384,38 @@ Deze email is gegenereerd door de BreathEase app.
         const styleSheet = document.createElement('style');
         styleSheet.textContent = mobileNavStyles;
         document.head.appendChild(styleSheet);
+
+        // Additional mobile fixes
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fix viewport on iOS
+            if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+                const viewport = document.querySelector('meta[name=viewport]');
+                if (viewport) {
+                    viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no');
+                }
+            }
+            
+            // Ensure navigation is always visible and functional
+            const navTabs = document.querySelector('.nav-tabs');
+            if (navTabs && window.innerWidth <= 768) {
+                navTabs.style.visibility = 'visible';
+                navTabs.style.display = 'flex';
+                navTabs.style.position = 'static';
+                navTabs.style.top = 'auto';
+            }
+            
+            // Add click handlers to nav tabs if onclick doesn't work
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                const tabName = tab.getAttribute('data-tab');
+                if (tabName) {
+                    tab.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        showTab(tabName);
+                    });
+                }
+            });
+        });
 
         window.addEventListener('resize', handleMobileMenus);
         window.addEventListener('load', handleMobileMenus);
