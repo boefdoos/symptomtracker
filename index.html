@@ -886,6 +886,40 @@
             opacity: 0.6;
         }
 
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: #00b894;
+        }
+
+        .notification.error {
+            background: #e17055;
+        }
+
+        .notification.info {
+            background: #74b9ff;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .container {
@@ -893,12 +927,12 @@
             }
 
             .header {
-                margin-top: 20px; /* Less margin on mobile */
+                margin-top: 20px;
                 margin-bottom: 20px;
             }
 
             .header h1 {
-                font-size: 1.8em; /* Smaller on mobile */
+                font-size: 1.8em;
                 flex-direction: column;
                 gap: 10px;
             }
@@ -917,41 +951,60 @@
                 grid-template-columns: 1fr;
             }
             
+            /* Mobile Navigation - Fixed and Improved */
             .nav-tabs {
-                position: static !important; /* Remove any sticky positioning */
-                background: rgba(255, 255, 255, 0.1) !important;
-                backdrop-filter: blur(10px) !important;
-                border-radius: 15px !important;
-                padding: 15px 10px !important;
-                margin: 0 0 25px 0 !important;
-                flex-direction: row !important; /* Keep horizontal on mobile */
-                flex-wrap: wrap !important;
-                justify-content: center !important;
-                gap: 8px !important;
-                box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
+                position: fixed !important;
+                bottom: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                z-index: 999 !important;
+                background: rgba(255, 255, 255, 0.95) !important;
+                backdrop-filter: blur(20px) !important;
+                border-radius: 0 !important;
+                padding: 8px 5px 8px 5px !important;
+                margin: 0 !important;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.15) !important;
+                border-top: 1px solid rgba(0, 184, 148, 0.2) !important;
+                display: flex !important;
+                justify-content: space-evenly !important;
+                align-items: center !important;
+                flex-wrap: nowrap !important;
+                gap: 2px !important;
+                max-height: 70px !important;
                 overflow: visible !important;
             }
 
             .nav-tab {
-                flex: 1 1 auto !important;
-                min-width: 110px !important;
-                max-width: 140px !important;
-                padding: 8px 6px !important;
-                font-size: 0.75em !important;
+                flex: 1 !important;
+                min-width: 0 !important;
+                max-width: none !important;
+                padding: 6px 4px !important;
+                font-size: 0.7em !important;
                 text-align: center !important;
-                border-radius: 20px !important;
+                border-radius: 12px !important;
                 white-space: nowrap !important;
                 overflow: hidden !important;
                 text-overflow: ellipsis !important;
                 flex-direction: column !important;
-                gap: 4px !important;
-                min-height: 50px !important;
+                gap: 2px !important;
+                min-height: 54px !important;
                 justify-content: center !important;
+                background: transparent !important;
+                border: none !important;
+                color: #636e72 !important;
+                transition: all 0.2s ease !important;
+                touch-action: manipulation !important;
+            }
+
+            .nav-tab:hover {
+                background: rgba(0, 184, 148, 0.1) !important;
+                transform: none !important;
+                box-shadow: none !important;
             }
 
             .nav-tab i {
                 display: block !important;
-                font-size: 1.3em !important;
+                font-size: 1.4em !important;
                 margin-bottom: 2px !important;
                 line-height: 1 !important;
             }
@@ -959,22 +1012,59 @@
             .nav-tab span {
                 display: block !important;
                 font-size: 0.85em !important;
-                line-height: 1.1 !important;
+                line-height: 1 !important;
                 font-weight: 500 !important;
             }
 
             .nav-tab.active {
-                background: white !important;
-                color: #00b894 !important;
-                border-color: white !important;
+                background: linear-gradient(135deg, #00b894, #00cec9) !important;
+                color: white !important;
+                border: none !important;
                 font-weight: 600 !important;
-                box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+                box-shadow: 0 2px 8px rgba(0, 184, 148, 0.3) !important;
+                transform: translateY(-2px) !important;
             }
 
-            .nav-tab.active span {
+            .nav-tab.active span,
+            .nav-tab.active i {
+                color: white !important;
                 font-weight: 600 !important;
             }
-            
+
+            /* Add bottom padding to main content to account for fixed nav */
+            .tab-content {
+                padding-bottom: 90px !important;
+            }
+
+            /* User profile adjustments for mobile */
+            .user-profile {
+                position: fixed !important;
+                top: 10px !important;
+                right: 10px !important;
+                z-index: 998 !important;
+                background: rgba(255,255,255,0.9) !important;
+                backdrop-filter: blur(10px) !important;
+                border-radius: 12px !important;
+                padding: 8px 12px !important;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
+                color: #2d3436 !important;
+            }
+
+            .user-avatar {
+                background: #00b894 !important;
+                color: white !important;
+                width: 28px !important;
+                height: 28px !important;
+                font-size: 0.8em !important;
+            }
+
+            .logout-btn {
+                background: rgba(0, 184, 148, 0.1) !important;
+                color: #00b894 !important;
+                padding: 4px 8px !important;
+                font-size: 0.8em !important;
+            }
+
             .timer-display {
                 font-size: 2em;
             }
@@ -993,18 +1083,6 @@
                 padding: 20px 15px;
             }
 
-            .user-profile {
-                position: relative;
-                top: 0;
-                right: 0;
-                margin-bottom: 15px;
-                justify-content: center;
-                background: rgba(255,255,255,0.15);
-                backdrop-filter: blur(10px);
-                border-radius: 15px;
-                padding: 10px 15px;
-            }
-
             .breathing-circle {
                 width: 150px;
                 height: 150px;
@@ -1018,6 +1096,7 @@
             /* Chart responsive adjustments */
             .progress-chart canvas {
                 min-height: 250px !important;
+                max-height: 250px !important;
             }
 
             /* Make charts grid single column on mobile */
@@ -1052,7 +1131,8 @@
 
             /* Fix form elements on mobile */
             .form-input, .form-select, .form-textarea {
-                font-size: 16px; /* Prevent zoom on iOS */
+                font-size: 16px !important; /* Prevent zoom on iOS */
+                min-height: 44px !important; /* iOS accessibility requirement */
             }
 
             .checkbox-group {
@@ -1071,6 +1151,8 @@
             .submit-btn {
                 width: 100%;
                 margin-bottom: 10px;
+                min-height: 44px !important;
+                touch-action: manipulation !important;
             }
 
             /* Fix exercise steps on mobile */
@@ -1116,7 +1198,7 @@
 
             /* Fix sync indicator */
             .sync-indicator {
-                bottom: 10px;
+                bottom: 80px !important; /* Above mobile nav */
                 right: 10px;
                 left: 10px;
                 justify-content: center;
@@ -1130,20 +1212,19 @@
             }
 
             .nav-tabs {
-                padding: 12px 8px !important;
-                gap: 6px !important;
+                padding: 6px 4px 6px 4px !important;
+                gap: 1px !important;
+                max-height: 65px !important;
             }
 
             .nav-tab {
-                min-width: 90px !important;
-                max-width: 110px !important;
-                padding: 6px 4px !important;
-                font-size: 0.7em !important;
-                min-height: 45px !important;
+                min-height: 50px !important;
+                padding: 4px 2px !important;
+                font-size: 0.65em !important;
             }
 
             .nav-tab i {
-                font-size: 1.1em !important;
+                font-size: 1.2em !important;
             }
 
             .nav-tab span {
@@ -1179,12 +1260,6 @@
                 height: 120px;
             }
 
-            /* Make activity heatmap smaller on very small screens */
-            #activityHeatmap > div:first-child {
-                grid-template-columns: repeat(5, 1fr) !important;
-            }
-
-            /* Improve form layout on small screens */
             .form-group {
                 margin-bottom: 15px;
             }
@@ -1193,7 +1268,6 @@
                 grid-template-columns: 1fr !important;
             }
 
-            /* Better button layout */
             .timer-controls {
                 flex-direction: column;
                 gap: 10px;
@@ -1203,19 +1277,26 @@
                 width: 100%;
                 justify-content: center;
             }
+
+            .tab-content {
+                padding-bottom: 75px !important;
+            }
         }
 
         /* Landscape mobile adjustments */
         @media (max-width: 768px) and (orientation: landscape) {
+            .nav-tabs {
+                padding: 6px 4px 6px 4px !important;
+                max-height: 60px !important;
+            }
+
             .nav-tab {
-                min-width: 100px !important;
-                max-width: 120px !important;
-                padding: 6px 4px !important;
-                min-height: 40px !important;
+                min-height: 48px !important;
+                padding: 4px 2px !important;
             }
 
             .nav-tab i {
-                font-size: 1em !important;
+                font-size: 1.2em !important;
             }
 
             .nav-tab span {
@@ -1223,16 +1304,20 @@
             }
 
             .header {
-                margin-top: 10px;
-                margin-bottom: 15px;
+                margin-top: 5px;
+                margin-bottom: 10px;
             }
 
             .header h1 {
-                font-size: 1.5em;
+                font-size: 1.4em;
             }
 
             .header p {
-                font-size: 0.9em;
+                font-size: 0.85em;
+            }
+
+            .tab-content {
+                padding-bottom: 75px !important;
             }
         }
 
@@ -1244,7 +1329,7 @@
 
         /* Ensure proper z-index stacking */
         .nav-tabs {
-            z-index: 100;
+            z-index: 999;
         }
 
         .tab-content {
@@ -1252,7 +1337,7 @@
         }
 
         .user-profile {
-            z-index: 200;
+            z-index: 998;
         }
 
         .auth-modal {
@@ -1265,40 +1350,6 @@
 
         .notification {
             z-index: 1002;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        /* Notification */
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 20px;
-            border-radius: 10px;
-            color: white;
-            font-weight: 600;
-            z-index: 1000;
-            transform: translateX(400px);
-            transition: transform 0.3s ease;
-        }
-
-        .notification.show {
-            transform: translateX(0);
-        }
-
-        .notification.success {
-            background: #00b894;
-        }
-
-        .notification.error {
-            background: #e17055;
-        }
-
-        .notification.info {
-            background: #74b9ff;
         }
     </style>
 </head>
@@ -1380,22 +1431,28 @@
 
         <div class="nav-tabs">
             <div class="nav-tab active" onclick="showTab('dashboard')">
-                <i class="fas fa-chart-line"></i> Dashboard
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
             </div>
             <div class="nav-tab" onclick="showTab('checklist')">
-                <i class="fas fa-check-square"></i> Dagelijkse Checklist
+                <i class="fas fa-tasks"></i>
+                <span>Checklist</span>
             </div>
             <div class="nav-tab" onclick="showTab('tracker')">
-                <i class="fas fa-chart-bar"></i> Symptoom Tracker
+                <i class="fas fa-clipboard-list"></i>
+                <span>Tracker</span>
             </div>
             <div class="nav-tab" onclick="showTab('exercises')">
-                <i class="fas fa-meditation"></i> Oefeningen
+                <i class="fas fa-lungs"></i>
+                <span>Oefeningen</span>
             </div>
             <div class="nav-tab" onclick="showTab('techniques')">
-                <i class="fas fa-bullseye"></i> Technieken
+                <i class="fas fa-brain"></i>
+                <span>Technieken</span>
             </div>
             <div class="nav-tab" onclick="showTab('progress')">
-                <i class="fas fa-chart-area"></i> Voortgang
+                <i class="fas fa-chart-area"></i>
+                <span>Voortgang</span>
             </div>
         </div>
 
@@ -1437,7 +1494,7 @@
             </div>
             
             <div class="progress-chart">
-                <h3><i class="fas fa-chart-line" style="margin-right: 10px; color: #00b894;"></i>Symptoom Trend (Laatste 14 dagen)</h3>
+                <h3><i class="fas fa-chart-line" style="margin-right: 10px; color: #00b894;"></i>Symptoom Trend (Laatste 7 dagen)</h3>
                 <div style="height: 300px; position: relative;">
                     <canvas id="dashboardSymptomChart"></canvas>
                 </div>
@@ -2057,7 +2114,7 @@
             <!-- Essential Charts Only -->
             <!-- Symptom Intensity Trend Chart -->
             <div class="progress-chart">
-                <h3><i class="fas fa-chart-line" style="margin-right: 10px; color: #00b894;"></i>Symptoom Intensiteit Trend (14 dagen)</h3>
+                <h3><i class="fas fa-chart-line" style="margin-right: 10px; color: #00b894;"></i>Symptoom Intensiteit Trend (7 dagen)</h3>
                 <div style="height: 300px; position: relative;">
                     <canvas id="symptomTrendChart"></canvas>
                 </div>
@@ -2084,7 +2141,7 @@
 
             <!-- Activity Heatmap -->
             <div class="progress-chart">
-                <h3><i class="fas fa-calendar-alt" style="margin-right: 10px; color: #e17055;"></i>Activiteit Heatmap (Laatste 30 dagen)</h3>
+                <h3><i class="fas fa-calendar-alt" style="margin-right: 10px; color: #e17055;"></i>Activiteit Heatmap (Laatste 14 dagen)</h3>
                 <div id="activityHeatmap" style="padding: 20px; background: #f8f9fa; border-radius: 10px; margin-bottom: 20px;">
                     <!-- Heatmap will be generated here -->
                 </div>
@@ -2148,16 +2205,15 @@
         // 6. Kopieer je config van Project Settings > General > Web apps
         // 7. Vervang onderstaande config met jouw gegevens
         //
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyDeXJhqa__4msZCeJueFwCtxcBRQflSmHE",
-  authDomain: "symptom-tracker-496e5.firebaseapp.com",
-  projectId: "symptom-tracker-496e5",
-  storageBucket: "symptom-tracker-496e5.firebasestorage.app",
-  messagingSenderId: "936513159085",
-  appId: "1:936513159085:web:5a6944c3f98ad9a3c56b24",
-  measurementId: "G-VWQV989J7G"
-};
+        const firebaseConfig = {
+          apiKey: "AIzaSyDeXJhqa__4msZCeJueFwCtxcBRQflSmHE",
+          authDomain: "symptom-tracker-496e5.firebaseapp.com",
+          projectId: "symptom-tracker-496e5",
+          storageBucket: "symptom-tracker-496e5.firebasestorage.app",
+          messagingSenderId: "936513159085",
+          appId: "1:936513159085:web:5a6944c3f98ad9a3c56b24",
+          measurementId: "G-VWQV989J7G"
+        };
 
         // Initialize Firebase with better error handling
         let app, auth, db, realtimeDb;
@@ -2589,21 +2645,6 @@ const firebaseConfig = {
                 
                 if (errorMessage.includes('PERMISSION_DENIED') || errorMessage.includes('permission-denied')) {
                     showNotification('🔐 Toegang geweigerd - controleer Firestore security rules', 'error');
-                    console.error(`
-❌ FIRESTORE PERMISSION ERROR ❌
-                    
-Je Firestore security rules zijn niet correct ingesteld.
-Ga naar Firebase Console > Firestore > Rules en gebruik:
-
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /users/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
-    }
-  }
-}
-                    `);
                 } else if (errorMessage.includes('UNAUTHENTICATED') || errorMessage.includes('unauthenticated')) {
                     showNotification('🔑 Niet ingelogd - probeer opnieuw in te loggen', 'error');
                 } else if (errorMessage.includes('UNAVAILABLE') || errorMessage.includes('unavailable') || errorMessage.includes('NETWORK_ERROR')) {
@@ -3311,228 +3352,6 @@ Deze email is gegenereerd door de BreathEase app.
             window.location.href = `mailto:?subject=${subject}&body=${body}`;
         }
 
-        // Keyboard shortcuts
-        document.addEventListener('keydown', function(e) {
-            // Escape key to close timers
-            if (e.key === 'Escape' && isTimerRunning) {
-                stopTimer();
-            }
-            
-            // Space to pause/resume timer
-            if (e.code === 'Space' && isTimerRunning) {
-                e.preventDefault();
-                pauseTimer();
-            }
-        });
-
-        // Service Worker for offline functionality (if needed)
-        if ('serviceWorker' in navigator && !isDemo) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(function(registration) {
-                        console.log('ServiceWorker registration successful');
-                    })
-                    .catch(function(err) {
-                        console.log('ServiceWorker registration failed');
-                    });
-            });
-        }
-
-        // Cleanup function for when page unloads
-        window.addEventListener('beforeunload', function() {
-            if (isTimerRunning) {
-                return 'Er loopt nog een ademhalingsoefening. Weet je zeker dat je de pagina wilt verlaten?';
-            }
-        });
-
-        // Responsive handling for mobile (improved)
-        function handleMobileMenus() {
-            const navTabs = document.querySelector('.nav-tabs');
-            if (!navTabs) return;
-
-            if (window.innerWidth <= 768) {
-                // Remove any previously set styles that might cause issues
-                navTabs.style.position = '';
-                navTabs.style.top = '';
-                navTabs.style.zIndex = '';
-                navTabs.style.backgroundColor = '';
-                navTabs.style.backdropFilter = '';
-                navTabs.style.padding = '';
-                navTabs.style.margin = '';
-                
-                // Add mobile-specific class instead of inline styles
-                navTabs.classList.add('mobile-nav');
-            } else {
-                navTabs.classList.remove('mobile-nav');
-            }
-        }
-
-        // Add CSS class for mobile navigation
-        const mobileNavStyles = `
-            .mobile-nav {
-                position: static !important;
-                background: rgba(255, 255, 255, 0.1) !important;
-                backdrop-filter: blur(10px) !important;
-                border-radius: 15px !important;
-                padding: 15px 10px !important;
-                margin: 0 0 25px 0 !important;
-                box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
-            }
-        `;
-
-        // Add the styles to the document
-        const styleSheet = document.createElement('style');
-        styleSheet.textContent = mobileNavStyles;
-        document.head.appendChild(styleSheet);
-
-        // Additional mobile fixes
-        document.addEventListener('DOMContentLoaded', function() {
-            // Fix viewport on iOS
-            if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
-                const viewport = document.querySelector('meta[name=viewport]');
-                if (viewport) {
-                    viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no');
-                }
-            }
-            
-            // Ensure navigation is always visible and functional
-            const navTabs = document.querySelector('.nav-tabs');
-            if (navTabs && window.innerWidth <= 768) {
-                navTabs.style.visibility = 'visible';
-                navTabs.style.display = 'flex';
-                navTabs.style.position = 'static';
-                navTabs.style.top = 'auto';
-            }
-            
-            // Add click handlers to nav tabs if onclick doesn't work
-            document.querySelectorAll('.nav-tab').forEach(tab => {
-                const tabName = tab.getAttribute('data-tab');
-                if (tabName) {
-                    tab.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        showTab(tabName);
-                    });
-                }
-            });
-        });
-
-        window.addEventListener('resize', handleMobileMenus);
-        window.addEventListener('load', handleMobileMenus);
-
-        // Enhanced mobile touch handling
-        document.addEventListener('DOMContentLoaded', function() {
-            // Add touch event listeners for better mobile interaction
-            const navTabs = document.querySelectorAll('.nav-tab');
-            
-            navTabs.forEach(tab => {
-                // Add touch start/end for better visual feedback
-                tab.addEventListener('touchstart', function() {
-                    this.style.transform = 'scale(0.95)';
-                }, { passive: true });
-                
-                tab.addEventListener('touchend', function() {
-                    this.style.transform = '';
-                }, { passive: true });
-                
-                tab.addEventListener('touchcancel', function() {
-                    this.style.transform = '';
-                }, { passive: true });
-            });
-            
-            // Prevent double-tap zoom on buttons
-            const buttons = document.querySelectorAll('button, .submit-btn, .nav-tab');
-            buttons.forEach(button => {
-                button.addEventListener('touchend', function(e) {
-                    e.preventDefault();
-                }, { passive: false });
-            });
-            
-            // Optimize viewport for mobile
-            if (window.innerWidth <= 768) {
-                const viewport = document.querySelector('meta[name=viewport]');
-                if (viewport) {
-                    viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
-                }
-            }
-        });
-
-        // Better tab switching for mobile
-        function switchToTab(tabName) {
-            // Find the tab by data attribute to be more reliable
-            const targetTab = document.querySelector(`[data-tab="${tabName}"]`);
-            if (targetTab) {
-                // Simulate click to maintain existing functionality
-                targetTab.click();
-            } else {
-                // Fallback to showTab function
-                showTab(tabName);
-            }
-        }
-
-        // Debug function for mobile issues
-        window.debugMobile = function() {
-            console.log('Mobile Debug Info:');
-            console.log('Screen width:', window.innerWidth);
-            console.log('Screen height:', window.innerHeight);
-            console.log('Device pixel ratio:', window.devicePixelRatio);
-            console.log('User agent:', navigator.userAgent);
-            
-            const navTabs = document.querySelector('.nav-tabs');
-            if (navTabs) {
-                const styles = window.getComputedStyle(navTabs);
-                console.log('Nav tabs styles:', {
-                    position: styles.position,
-                    top: styles.top,
-                    zIndex: styles.zIndex,
-                    display: styles.display,
-                    flexDirection: styles.flexDirection
-                });
-            }
-        };
-
-        // PWA Installation prompt
-        let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            // Prevent Chrome 67 and earlier from automatically showing the prompt
-            e.preventDefault();
-            // Stash the event so it can be triggered later.
-            deferredPrompt = e;
-            
-            // Show install button/notification
-            showNotification('Deze app kan als snelkoppeling worden geïnstalleerd!', 'info');
-        });
-
-        // Advanced features toggle for power users
-        let advancedMode = localStorage.getItem('advancedMode') === 'true';
-        
-        function toggleAdvancedMode() {
-            advancedMode = !advancedMode;
-            localStorage.setItem('advancedMode', advancedMode.toString());
-            
-            // Show/hide advanced features
-            const advancedFeatures = document.querySelectorAll('.advanced-feature');
-            advancedFeatures.forEach(feature => {
-                feature.style.display = advancedMode ? 'block' : 'none';
-            });
-            
-            showNotification(
-                advancedMode ? 'Geavanceerde modus ingeschakeld' : 'Geavanceerde modus uitgeschakeld', 
-                'info'
-            );
-        }
-
-        // Initialize advanced mode on load
-        document.addEventListener('DOMContentLoaded', function() {
-            const advancedFeatures = document.querySelectorAll('.advanced-feature');
-            advancedFeatures.forEach(feature => {
-                feature.style.display = advancedMode ? 'block' : 'none';
-            });
-        });
-
-        // Double-click on header to toggle advanced mode
-        document.querySelector('.header h1').addEventListener('dblclick', toggleAdvancedMode);
-
         // Data validation functions
         function validateSymptomData(data) {
             const errors = [];
@@ -3543,172 +3362,6 @@ Deze email is gegenereerd door de BreathEase app.
             
             return errors;
         }
-
-        // Enhanced form validation
-        document.getElementById('symptomForm').addEventListener('input', function(e) {
-            const form = e.target.form;
-            const submitBtn = document.getElementById('submitSymptomBtn');
-            
-            // Real-time validation feedback
-            if (e.target.type === 'range') {
-                const valueSpan = document.getElementById('intensityValue');
-                if (valueSpan) {
-                    valueSpan.textContent = e.target.value;
-                    valueSpan.style.color = e.target.value > 7 ? '#e17055' : e.target.value > 4 ? '#fdcb6e' : '#00b894';
-                }
-            }
-            
-            // Enable/disable submit button based on form validity
-            const isValid = form.checkValidity();
-            submitBtn.disabled = !isValid;
-            submitBtn.style.opacity = isValid ? '1' : '0.6';
-        });
-
-        // Auto-save draft functionality
-        let draftTimer;
-        function saveDraft() {
-            const formData = {
-                mainSymptom: document.getElementById('mainSymptom').value,
-                intensity: document.getElementById('intensitySlider').value,
-                duration: document.getElementById('duration').value,
-                notes: document.getElementById('notes').value,
-                timestamp: Date.now()
-            };
-            
-            if (formData.mainSymptom || formData.notes) {
-                localStorage.setItem('symptomDraft', JSON.stringify(formData));
-            }
-        }
-
-        function loadDraft() {
-            const draft = localStorage.getItem('symptomDraft');
-            if (draft) {
-                const data = JSON.parse(draft);
-                const age = Date.now() - data.timestamp;
-                
-                // Only load draft if it's less than 1 hour old
-                if (age < 3600000) {
-                    if (confirm('Er is een niet-opgeslagen concept gevonden. Wil je dit herstellen?')) {
-                        document.getElementById('mainSymptom').value = data.mainSymptom || '';
-                        document.getElementById('intensitySlider').value = data.intensity || 5;
-                        document.getElementById('duration').value = data.duration || '';
-                        document.getElementById('notes').value = data.notes || '';
-                        updateIntensityValue();
-                    }
-                }
-                localStorage.removeItem('symptomDraft');
-            }
-        }
-
-        // Add auto-save to form inputs
-        document.querySelectorAll('#symptomForm input, #symptomForm select, #symptomForm textarea').forEach(input => {
-            input.addEventListener('input', function() {
-                clearTimeout(draftTimer);
-                draftTimer = setTimeout(saveDraft, 2000);
-            });
-        });
-
-        // Load draft on form focus (optimized)
-        let draftLoaded = false;
-        document.getElementById('symptomForm').addEventListener('focusin', function() {
-            if (!draftLoaded) {
-                draftLoaded = true;
-                // Use setTimeout to prevent blocking
-                setTimeout(loadDraft, 0);
-            }
-        }, { once: true });
-
-        // Clear draft on successful submit
-        document.getElementById('symptomForm').addEventListener('submit', function() {
-            localStorage.removeItem('symptomDraft');
-        });
-
-        // Performance monitoring
-        if (window.performance && window.performance.mark) {
-            window.performance.mark('app-start');
-            
-            window.addEventListener('load', function() {
-                window.performance.mark('app-loaded');
-                window.performance.measure('app-load-time', 'app-start', 'app-loaded');
-                
-                const measure = window.performance.getEntriesByName('app-load-time')[0];
-                if (measure && measure.duration > 3000) {
-                    console.warn('App load time is slow:', measure.duration + 'ms');
-                }
-            });
-        }
-
-        // Test function for Firestore setup (call in console: testFirestore())
-        window.testFirestore = async function() {
-            if (isDemo) {
-                console.log('🔧 App is running in demo mode');
-                console.log('To use Firestore, update the firebaseConfig with your real project settings');
-                return;
-            }
-            
-            if (!currentUser) {
-                console.log('❌ No user logged in. Please log in first.');
-                return;
-            }
-            
-            try {
-                console.log('🧪 Testing Firestore connection...');
-                
-                // Test 1: Basic connection
-                await db.enableNetwork();
-                console.log('✅ Test 1 passed: Firestore network connection OK');
-                
-                // Test 2: Read permission
-                const userRef = db.collection('users').doc(currentUser.uid);
-                await userRef.get();
-                console.log('✅ Test 2 passed: Read permission OK');
-                
-                // Test 3: Write permission
-                await userRef.set({
-                    test: true,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                }, { merge: true });
-                console.log('✅ Test 3 passed: Write permission OK');
-                
-                // Test 4: Delete test data
-                await userRef.update({
-                    test: firebase.firestore.FieldValue.delete()
-                });
-                console.log('✅ Test 4 passed: Delete permission OK');
-                
-                console.log('🎉 All Firestore tests passed! Your setup is correct.');
-                showNotification('Firestore test succesvol!', 'success');
-                
-            } catch (error) {
-                console.error('❌ Firestore test failed:', error);
-                
-                if (error.code === 'permission-denied') {
-                    console.error(`
-❌ PERMISSION DENIED ERROR ❌
-
-Your Firestore security rules are not set up correctly.
-Go to Firebase Console > Firestore > Rules and use:
-
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /users/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
-    }
-  }
-}
-
-Then click "Publish" to save the rules.
-                    `);
-                } else {
-                    console.error('Error details:', error);
-                }
-                
-                showNotification('Firestore test mislukt - check console', 'error');
-            }
-        };
-
-        console.log('💡 TIP: Run testFirestore() in console to test your Firestore setup');
 
         // Chart variables
         let symptomTrendChart = null;
@@ -3733,13 +3386,53 @@ Then click "Publish" to save the rules.
             }
         }
 
+        // Chart.js default configuration
+        Chart.defaults.font.family = 'Inter, -apple-system, BlinkMacSystemFont, sans-serif';
+        Chart.defaults.font.size = 12;
+        Chart.defaults.font.weight = '400';
+        Chart.defaults.color = '#2d3436';
+
+        // Generate demo symptom data for charts (only in demo mode)
+        function generateDemoSymptomData() {
+            // Only generate demo data if we're in demo mode
+            if (!isDemo) {
+                return [];
+            }
+            
+            const symptoms = [];
+            const symptomTypes = ['gaping', 'sighing', 'air-hunger', 'shortness', 'chest-tightness', 'dizzy', 'tingling'];
+            const triggers = ['stress', 'anxiety', 'eating', 'lying', 'exercise', 'crowd', 'heat', 'confined'];
+            const techniques = ['diaphragmatic', 'box', 'co2-training', 'vagus', 'mindfulness', 'posture'];
+            
+            // Only generate 7 days of demo data instead of 14
+            for (let i = 7; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                
+                // Generate 0-3 symptoms per day
+                const symptomsPerDay = Math.floor(Math.random() * 4);
+                
+                for (let j = 0; j < symptomsPerDay; j++) {
+                    symptoms.push({
+                        timestamp: date.toISOString(),
+                        mainSymptom: symptomTypes[Math.floor(Math.random() * symptomTypes.length)],
+                        intensity: Math.floor(Math.random() * 6) + 3, // 3-8 range
+                        triggers: [triggers[Math.floor(Math.random() * triggers.length)]],
+                        techniques: [techniques[Math.floor(Math.random() * techniques.length)]],
+                        effectiveness: Math.floor(Math.random() * 5) + 5 // 5-9 range
+                    });
+                }
+            }
+            return symptoms;
+        }
+
         // Create simplified symptom chart for dashboard
         function createDashboardSymptomChart() {
             const ctx = document.getElementById('dashboardSymptomChart');
             if (!ctx) return;
 
             const symptoms = JSON.parse(localStorage.getItem('symptoms') || '[]');
-            const demoSymptoms = symptoms.length > 0 ? symptoms : generateDemoSymptomData();
+            const demoSymptoms = (symptoms.length > 0 || !isDemo) ? symptoms : generateDemoSymptomData();
             
             // Group symptoms by date and calculate average intensity
             const dailyData = {};
@@ -3755,7 +3448,7 @@ Then click "Publish" to save the rules.
             const labels = [];
             const intensityData = [];
 
-            // Generate last 7 days for dashboard
+            // Generate last 7 days for dashboard (reduced from 14)
             for (let i = 6; i >= 0; i--) {
                 const date = new Date();
                 date.setDate(date.getDate() - i);
@@ -3818,47 +3511,13 @@ Then click "Publish" to save the rules.
             });
         }
 
-        // Chart.js default configuration
-        Chart.defaults.font.family = 'Inter, -apple-system, BlinkMacSystemFont, sans-serif';
-        Chart.defaults.font.size = 12;
-        Chart.defaults.font.weight = '400';
-        Chart.defaults.color = '#2d3436';
-
-        // Generate demo symptom data for charts
-        function generateDemoSymptomData() {
-            const symptoms = [];
-            const symptomTypes = ['gaping', 'sighing', 'air-hunger', 'shortness', 'chest-tightness', 'dizzy', 'tingling'];
-            const triggers = ['stress', 'anxiety', 'eating', 'lying', 'exercise', 'crowd', 'heat', 'confined'];
-            const techniques = ['diaphragmatic', 'box', 'co2-training', 'vagus', 'mindfulness', 'posture'];
-            
-            for (let i = 14; i >= 0; i--) {
-                const date = new Date();
-                date.setDate(date.getDate() - i);
-                
-                // Generate 0-3 symptoms per day
-                const symptomsPerDay = Math.floor(Math.random() * 4);
-                
-                for (let j = 0; j < symptomsPerDay; j++) {
-                    symptoms.push({
-                        timestamp: date.toISOString(),
-                        mainSymptom: symptomTypes[Math.floor(Math.random() * symptomTypes.length)],
-                        intensity: Math.floor(Math.random() * 6) + 3, // 3-8 range
-                        triggers: [triggers[Math.floor(Math.random() * triggers.length)]],
-                        techniques: [techniques[Math.floor(Math.random() * techniques.length)]],
-                        effectiveness: Math.floor(Math.random() * 5) + 5 // 5-9 range
-                    });
-                }
-            }
-            return symptoms;
-        }
-
         // Create Symptom Trend Chart
         function createSymptomTrendChart() {
             const ctx = document.getElementById('symptomTrendChart');
             if (!ctx) return;
 
             const symptoms = JSON.parse(localStorage.getItem('symptoms') || '[]');
-            const demoSymptoms = symptoms.length > 0 ? symptoms : generateDemoSymptomData();
+            const demoSymptoms = (symptoms.length > 0 || !isDemo) ? symptoms : generateDemoSymptomData();
             
             // Group symptoms by date and calculate average intensity
             const dailyData = {};
@@ -3875,8 +3534,8 @@ Then click "Publish" to save the rules.
             const intensityData = [];
             const countData = [];
 
-            // Generate last 14 days
-            for (let i = 13; i >= 0; i--) {
+            // Generate last 7 days (reduced from 14)
+            for (let i = 6; i >= 0; i--) {
                 const date = new Date();
                 date.setDate(date.getDate() - i);
                 const dateStr = date.toLocaleDateString('nl-NL');
@@ -3960,7 +3619,7 @@ Then click "Publish" to save the rules.
             if (!ctx) return;
 
             const symptoms = JSON.parse(localStorage.getItem('symptoms') || '[]');
-            const demoSymptoms = symptoms.length > 0 ? symptoms : generateDemoSymptomData();
+            const demoSymptoms = (symptoms.length > 0 || !isDemo) ? symptoms : generateDemoSymptomData();
             
             const symptomCounts = {};
             const symptomLabels = {
@@ -4019,7 +3678,7 @@ Then click "Publish" to save the rules.
             if (!ctx) return;
 
             const symptoms = JSON.parse(localStorage.getItem('symptoms') || '[]');
-            const demoSymptoms = symptoms.length > 0 ? symptoms : generateDemoSymptomData();
+            const demoSymptoms = (symptoms.length > 0 || !isDemo) ? symptoms : generateDemoSymptomData();
             
             const techniqueStats = {};
             const techniqueLabels = {
@@ -4108,15 +3767,19 @@ Then click "Publish" to save the rules.
             const today = new Date();
             const monthNames = ['Jan', 'Feb', 'Mrt', 'Apr', 'Mei', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'];
             
-            // Create calendar grid for last 30 days
+            // Create calendar grid for last 14 days (reduced from 30)
             let html = '<div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; max-width: 300px;">';
             
-            for (let i = 29; i >= 0; i--) {
+            for (let i = 13; i >= 0; i--) {
                 const date = new Date(today);
                 date.setDate(date.getDate() - i);
                 
-                // Random activity level (0-4)
-                const activity = Math.floor(Math.random() * 5);
+                // Random activity level (0-4) - only in demo mode
+                let activity = 0;
+                if (isDemo) {
+                    activity = Math.floor(Math.random() * 5);
+                }
+                
                 let color = '#f1f2f6';
                 let title = 'Geen activiteit';
                 
@@ -4168,49 +3831,103 @@ Then click "Publish" to save the rules.
             container.innerHTML = html;
         }
 
-        // Update showTab function to initialize charts when progress tab is shown
-        const originalShowTab = showTab;
-        showTab = function(tabName) {
-            originalShowTab.call(this, tabName);
-            if (tabName === 'progress') {
-                // Delay chart initialization to ensure DOM is ready
-                setTimeout(initializeCharts, 100);
-            } else if (tabName === 'dashboard') {
-                // Initialize dashboard chart
-                setTimeout(initializeDashboardChart, 100);
-            }
-        };
-
         // Initialize dashboard chart on app load
         document.addEventListener('DOMContentLoaded', function() {
             setTimeout(initializeDashboardChart, 500);
         });
 
-        // Destroy charts when leaving progress tab to free memory
-        function destroyCharts() {
-            [symptomTrendChart, symptomDistributionChart, techniqueEffectivenessChart, dashboardSymptomChart].forEach(chart => {
-                if (chart) {
-                    chart.destroy();
-                }
-            });
-        }
-
-        // Update charts when new data is added
-        function updateProgressCharts() {
-            if (document.getElementById('progress').classList.contains('active')) {
-                initializeCharts();
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Escape key to close timers
+            if (e.key === 'Escape' && isTimerRunning) {
+                stopTimer();
             }
-            if (document.getElementById('dashboard').classList.contains('active')) {
-                initializeDashboardChart();
+            
+            // Space to pause/resume timer
+            if (e.code === 'Space' && isTimerRunning) {
+                e.preventDefault();
+                pauseTimer();
             }
-        }
-
-        // Call updateProgressCharts when symptom data is added
-        const originalSymptomSubmit = document.getElementById('symptomForm').onsubmit;
-        document.getElementById('symptomForm').addEventListener('submit', function(e) {
-            // Call original handler first, then update charts
-            setTimeout(updateProgressCharts, 500);
         });
+
+        // Cleanup function for when page unloads
+        window.addEventListener('beforeunload', function() {
+            if (isTimerRunning) {
+                return 'Er loopt nog een ademhalingsoefening. Weet je zeker dat je de pagina wilt verlaten?';
+            }
+        });
+
+        // Test function for Firestore setup (call in console: testFirestore())
+        window.testFirestore = async function() {
+            if (isDemo) {
+                console.log('🔧 App is running in demo mode');
+                console.log('To use Firestore, update the firebaseConfig with your real project settings');
+                return;
+            }
+            
+            if (!currentUser) {
+                console.log('❌ No user logged in. Please log in first.');
+                return;
+            }
+            
+            try {
+                console.log('🧪 Testing Firestore connection...');
+                
+                // Test 1: Basic connection
+                await db.enableNetwork();
+                console.log('✅ Test 1 passed: Firestore network connection OK');
+                
+                // Test 2: Read permission
+                const userRef = db.collection('users').doc(currentUser.uid);
+                await userRef.get();
+                console.log('✅ Test 2 passed: Read permission OK');
+                
+                // Test 3: Write permission
+                await userRef.set({
+                    test: true,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                }, { merge: true });
+                console.log('✅ Test 3 passed: Write permission OK');
+                
+                // Test 4: Delete test data
+                await userRef.update({
+                    test: firebase.firestore.FieldValue.delete()
+                });
+                console.log('✅ Test 4 passed: Delete permission OK');
+                
+                console.log('🎉 All Firestore tests passed! Your setup is correct.');
+                showNotification('Firestore test succesvol!', 'success');
+                
+            } catch (error) {
+                console.error('❌ Firestore test failed:', error);
+                
+                if (error.code === 'permission-denied') {
+                    console.error(`
+❌ PERMISSION DENIED ERROR ❌
+
+Your Firestore security rules are not set up correctly.
+Go to Firebase Console > Firestore > Rules and use:
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+  }
+}
+
+Then click "Publish" to save the rules.
+                    `);
+                } else {
+                    console.error('Error details:', error);
+                }
+                
+                showNotification('Firestore test mislukt - check console', 'error');
+            }
+        };
+
+        console.log('💡 TIP: Run testFirestore() in console to test your Firestore setup');
     </script>
 </body>
 </html>
